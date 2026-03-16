@@ -37,7 +37,7 @@ export default function UsageChart({ data, cpu, memory, network }: UsageChartPro
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.6, delay: 0.2 }}
       whileHover={{ borderColor: `${theme.accent}40` }}
-      className="col-span-1 lg:col-span-2 group rounded-2xl border border-azure-card bg-azure-card/50 backdrop-blur-xl p-5 transition-all duration-300 relative overflow-hidden"
+      className="col-span-1 md:col-span-2 lg:col-span-2 group rounded-2xl border border-azure-card bg-azure-card/50 backdrop-blur-xl p-4 sm:p-5 transition-all duration-300 relative overflow-hidden"
     >
       <div
         className="absolute inset-0 transition-all duration-500 pointer-events-none"
@@ -46,14 +46,14 @@ export default function UsageChart({ data, cpu, memory, network }: UsageChartPro
         }}
       />
 
-      <div className="flex items-center justify-between mb-5 relative">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 sm:mb-5 gap-3 relative">
         <div>
-          <h2 className="text-base font-semibold" style={{ color: theme.textPrimary }}>Live Resource Utilization</h2>
+          <h2 className="text-sm sm:text-base font-semibold" style={{ color: theme.textPrimary }}>Live Resource Utilization</h2>
           <p className="text-[11px] mt-0.5" style={{ color: theme.textMuted }}>
             Streaming every 2s &middot; {visibleData.length} points
           </p>
         </div>
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-3 sm:gap-4">
           {/* Time range selector */}
           <div className="flex items-center bg-azure-bg/60 border border-azure-card-hover/50 rounded-lg overflow-hidden">
             {TIME_RANGES.map((r, i) => (
@@ -91,7 +91,7 @@ export default function UsageChart({ data, cpu, memory, network }: UsageChartPro
         </div>
       </div>
 
-      <div className="h-64 w-full relative">
+      <div className="h-48 sm:h-64 w-full relative">
         <ResponsiveContainer width="100%" height="100%">
           <LineChart data={visibleData} margin={{ top: 5, right: 10, bottom: 5, left: -10 }}>
             <defs>

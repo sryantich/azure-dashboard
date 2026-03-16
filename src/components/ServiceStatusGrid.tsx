@@ -33,7 +33,7 @@ export default function ServiceStatusGrid({ services }: ServiceStatusGridProps) 
       initial={{ opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay: 0.3 }}
-      className="col-span-1 lg:col-span-2 group/card rounded-2xl border border-azure-card hover:border-azure-accent/20 bg-azure-card/50 backdrop-blur-xl p-5 relative overflow-hidden transition-all duration-300"
+      className="col-span-1 md:col-span-1 lg:col-span-2 group/card rounded-2xl border border-azure-card hover:border-azure-accent/20 bg-azure-card/50 backdrop-blur-xl p-4 sm:p-5 relative overflow-hidden transition-all duration-300"
     >
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(16,185,129,0.03)_0%,transparent_60%)] pointer-events-none" />
 
@@ -60,7 +60,7 @@ export default function ServiceStatusGrid({ services }: ServiceStatusGridProps) 
         {Object.entries(groups).map(([category, items]) => (
           <div key={category}>
             <h3 className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1.5">{category}</h3>
-            <div className="grid grid-cols-2 gap-1.5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
               {items.map(service => {
                 const cfg = STATUS_CONFIG[service.status];
                 const isIssue = service.status !== "operational";

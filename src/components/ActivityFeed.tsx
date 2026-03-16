@@ -84,7 +84,7 @@ export default function ActivityFeed({ events }: ActivityFeedProps) {
       initial={{ opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay: 0.35 }}
-      className="col-span-1 rounded-2xl border border-azure-card hover:border-azure-accent/20 bg-azure-card/50 backdrop-blur-xl p-5 relative overflow-hidden transition-all duration-300"
+      className="col-span-1 rounded-2xl border border-azure-card hover:border-azure-accent/20 bg-azure-card/50 backdrop-blur-xl p-4 sm:p-5 relative overflow-hidden transition-all duration-300"
     >
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(56,189,248,0.03)_0%,transparent_60%)] pointer-events-none" />
 
@@ -101,7 +101,7 @@ export default function ActivityFeed({ events }: ActivityFeedProps) {
       </div>
 
       {/* Severity filter bar */}
-      <div className="flex items-center gap-1.5 mb-3 relative">
+      <div className="flex items-center gap-1.5 mb-3 relative flex-wrap">
         <button
           onClick={resetFilters}
           className={`flex items-center gap-1 px-2 py-1 rounded-md text-[10px] font-semibold uppercase tracking-wider border transition-all duration-200 ${

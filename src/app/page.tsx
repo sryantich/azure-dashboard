@@ -82,15 +82,15 @@ function Dashboard() {
         className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4"
       >
         <div>
-          <h1 className="text-3xl font-bold tracking-tight text-white mb-1 flex items-center gap-2.5">
-            <CloudRain className="w-8 h-8 text-azure-accent" />
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-white mb-1 flex items-center gap-2.5">
+            <CloudRain className="w-7 h-7 sm:w-8 sm:h-8 text-azure-accent" />
             Azure Live Ops
           </h1>
-          <p className="text-slate-500 text-sm font-medium tracking-wide">
+          <p className="text-slate-500 text-xs sm:text-sm font-medium tracking-wide">
             Real-time infrastructure & performance monitoring
           </p>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
           {/* Theme selector */}
           <ThemeSelector />
           {/* Live clock */}
@@ -195,7 +195,7 @@ function Dashboard() {
       </motion.div>
 
       {/* ── Charts Row ── */}
-      <motion.div variants={itemVariants} className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
+      <motion.div variants={itemVariants} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
         <UsageChart
           data={metrics.chartData}
           cpu={c.cpu}
@@ -206,19 +206,19 @@ function Dashboard() {
       </motion.div>
 
       {/* ── Status + Feed Row ── */}
-      <motion.div variants={itemVariants} className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
+      <motion.div variants={itemVariants} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
         <ServiceStatusGrid services={azure.services} />
         <ActivityFeed events={events} />
       </motion.div>
 
       {/* ── Incidents + Resource Health Row ── */}
-      <motion.div variants={itemVariants} className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
+      <motion.div variants={itemVariants} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
         <IncidentsFeed data={incidents} />
         <ResourceHealthPanel data={resourceHealth} />
       </motion.div>
 
       {/* ── Network Map ── */}
-      <motion.div variants={itemVariants} className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+      <motion.div variants={itemVariants} className="grid grid-cols-1 gap-4">
         <NetworkMap regions={azure.regions} />
       </motion.div>
     </motion.div>

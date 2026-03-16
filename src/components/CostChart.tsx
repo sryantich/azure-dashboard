@@ -31,7 +31,7 @@ export default function CostChart() {
       initial={{ opacity: 0, scale: 0.96 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.6, delay: 0.3 }}
-      className="col-span-1 rounded-2xl border border-azure-card hover:border-azure-accent/20 bg-azure-card/50 backdrop-blur-xl p-5 relative overflow-hidden transition-all duration-300"
+      className="col-span-1 rounded-2xl border border-azure-card hover:border-azure-accent/20 bg-azure-card/50 backdrop-blur-xl p-4 sm:p-5 relative overflow-hidden transition-all duration-300"
     >
       {/* Gradient overlay */}
       <div className="absolute inset-0 pointer-events-none"
@@ -55,7 +55,7 @@ export default function CostChart() {
 
       {/* Current month callout */}
       <div className="flex items-baseline gap-2 mb-4 relative z-10">
-        <span className="text-2xl font-bold font-[family-name:var(--font-geist-mono)]" style={{ color: theme.textPrimary }}>
+        <span className="text-xl sm:text-2xl font-bold font-[family-name:var(--font-geist-mono)]" style={{ color: theme.textPrimary }}>
           ${latest.cost.toLocaleString()}
         </span>
         <span className="text-xs" style={{ color: theme.textMuted }}>
@@ -63,7 +63,7 @@ export default function CostChart() {
         </span>
       </div>
 
-      <div className="h-48 w-full relative z-10">
+      <div className="h-40 sm:h-48 w-full relative z-10">
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart data={MONTHLY_DATA} margin={{ top: 5, right: 0, bottom: 5, left: -20 }}>
             <defs>

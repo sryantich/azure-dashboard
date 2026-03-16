@@ -222,7 +222,7 @@ export default function ResourceHealthPanel({ data }: ResourceHealthPanelProps) 
       initial={{ opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay: 0.35 }}
-      className="col-span-1 lg:col-span-2 rounded-2xl border border-azure-card hover:border-azure-accent/20 bg-azure-card/50 backdrop-blur-xl p-5 relative overflow-hidden transition-all duration-300"
+      className="col-span-1 md:col-span-2 lg:col-span-2 rounded-2xl border border-azure-card hover:border-azure-accent/20 bg-azure-card/50 backdrop-blur-xl p-4 sm:p-5 relative overflow-hidden transition-all duration-300"
     >
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(56,189,248,0.02)_0%,transparent_50%)] pointer-events-none" />
 
@@ -251,9 +251,9 @@ export default function ResourceHealthPanel({ data }: ResourceHealthPanelProps) 
         </div>
       </div>
 
-      <div className="flex gap-5 relative">
+      <div className="flex flex-col sm:flex-row gap-5 relative">
         {/* Availability ring */}
-        <div className="flex flex-col items-center gap-1 flex-shrink-0">
+        <div className="flex flex-row sm:flex-col items-center gap-3 sm:gap-1 flex-shrink-0">
           <AvailabilityRing percentage={overallAvailability} size={88} />
           <span className="text-[9px] text-slate-500 font-medium uppercase tracking-wider mt-1">
             Availability

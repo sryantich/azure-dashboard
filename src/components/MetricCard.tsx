@@ -92,7 +92,7 @@ function DrillDownPanel({
       <div className="pt-3 mt-1 border-t border-azure-card-hover/60">
         {/* Larger sparkline */}
         <div className="mb-3">
-          <Sparkline data={sparklineData} color={sparklineColor} width={280} height={48} />
+          <Sparkline data={sparklineData} color={sparklineColor} width={280} height={48} responsive />
         </div>
 
         {/* Stats grid */}
@@ -186,7 +186,7 @@ export default function MetricCard({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay, ease: "easeOut" as const }}
       whileHover={{ scale: 1.02, transition: { duration: 0.2 } }}
-      className="group relative overflow-hidden rounded-2xl border border-azure-card hover:border-azure-accent/30 bg-azure-card/50 backdrop-blur-xl p-5 transition-colors duration-300 cursor-pointer select-none"
+      className="group relative overflow-hidden rounded-2xl border border-azure-card hover:border-azure-accent/30 bg-azure-card/50 backdrop-blur-xl p-4 sm:p-5 transition-colors duration-300 cursor-pointer select-none"
     >
       {/* Mouse-follow highlight */}
       <motion.div
@@ -241,7 +241,7 @@ export default function MetricCard({
             transition={{ duration: 0.2 }}
             className="mt-2 mb-1 relative"
           >
-            <Sparkline data={sparklineData} color={resolvedSparklineColor} width={220} height={32} />
+            <Sparkline data={sparklineData} color={resolvedSparklineColor} width={220} height={32} responsive />
           </motion.div>
         )}
       </AnimatePresence>

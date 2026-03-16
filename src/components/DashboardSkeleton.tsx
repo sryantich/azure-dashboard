@@ -10,7 +10,7 @@ function Pulse({ className = "" }: { className?: string }) {
 
 function SkeletonCard() {
   return (
-    <div className="rounded-2xl border border-azure-card bg-azure-card/50 backdrop-blur-xl p-5">
+    <div className="rounded-2xl border border-azure-card bg-azure-card/50 backdrop-blur-xl p-4 sm:p-5">
       <div className="flex items-center justify-between mb-3">
         <Pulse className="h-3 w-24" />
         <Pulse className="h-7 w-7 rounded-lg" />
@@ -30,8 +30,8 @@ function SkeletonCard() {
 
 function SkeletonChart({ className = "" }: { className?: string }) {
   return (
-    <div className={`rounded-2xl border border-azure-card bg-azure-card/50 backdrop-blur-xl p-5 ${className}`}>
-      <div className="flex items-center justify-between mb-5">
+    <div className={`rounded-2xl border border-azure-card bg-azure-card/50 backdrop-blur-xl p-4 sm:p-5 ${className}`}>
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 sm:mb-5 gap-3">
         <div>
           <Pulse className="h-5 w-40 mb-1.5" />
           <Pulse className="h-3 w-24" />
@@ -42,7 +42,7 @@ function SkeletonChart({ className = "" }: { className?: string }) {
           <Pulse className="h-4 w-16" />
         </div>
       </div>
-      <div className="h-64 w-full flex items-end gap-1 px-4">
+      <div className="h-48 sm:h-64 w-full flex items-end gap-1 px-4">
         {Array.from({ length: 24 }, (_, i) => (
           <div
             key={i}
@@ -60,7 +60,7 @@ function SkeletonChart({ className = "" }: { className?: string }) {
 
 function SkeletonServiceGrid() {
   return (
-    <div className="col-span-1 lg:col-span-2 rounded-2xl border border-azure-card bg-azure-card/50 backdrop-blur-xl p-5">
+    <div className="col-span-1 md:col-span-1 lg:col-span-2 rounded-2xl border border-azure-card bg-azure-card/50 backdrop-blur-xl p-4 sm:p-5">
       <div className="flex items-center justify-between mb-4">
         <div>
           <Pulse className="h-5 w-40 mb-1.5" />
@@ -72,7 +72,7 @@ function SkeletonServiceGrid() {
         {[1, 2, 3, 4].map(g => (
           <div key={g}>
             <Pulse className="h-2.5 w-20 mb-2" />
-            <div className="grid grid-cols-2 gap-1.5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
               {Array.from({ length: g === 1 ? 3 : 2 }, (_, i) => (
                 <div key={i} className="flex items-center justify-between px-3 py-2 rounded-lg bg-azure-bg/50 border border-azure-card-hover/40">
                   <div className="flex items-center gap-2">
@@ -92,7 +92,7 @@ function SkeletonServiceGrid() {
 
 function SkeletonFeed() {
   return (
-    <div className="col-span-1 rounded-2xl border border-azure-card bg-azure-card/50 backdrop-blur-xl p-5">
+    <div className="col-span-1 rounded-2xl border border-azure-card bg-azure-card/50 backdrop-blur-xl p-4 sm:p-5">
       <div className="flex items-center justify-between mb-4">
         <div>
           <Pulse className="h-5 w-28 mb-1.5" />
@@ -119,9 +119,44 @@ function SkeletonFeed() {
   );
 }
 
+function SkeletonResourceHealth() {
+  return (
+    <div className="col-span-1 md:col-span-2 lg:col-span-2 rounded-2xl border border-azure-card bg-azure-card/50 backdrop-blur-xl p-4 sm:p-5">
+      <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center gap-2">
+          <Pulse className="h-4 w-4 rounded" />
+          <div>
+            <Pulse className="h-5 w-36 mb-1.5" />
+            <Pulse className="h-3 w-28" />
+          </div>
+        </div>
+        <div className="flex items-center gap-3">
+          <Pulse className="h-4 w-8" />
+          <Pulse className="h-4 w-8" />
+          <Pulse className="h-4 w-8" />
+        </div>
+      </div>
+      <div className="flex flex-col sm:flex-row gap-5">
+        <Pulse className="h-[88px] w-[88px] rounded-full flex-shrink-0" />
+        <div className="flex-1 space-y-2">
+          {Array.from({ length: 6 }, (_, i) => (
+            <div key={i} className="flex items-center gap-2.5 px-2.5 py-2">
+              <Pulse className="h-6 w-6 rounded-md" />
+              <div className="flex-1">
+                <Pulse className="h-3 w-24 mb-1" />
+                <Pulse className="h-1.5 w-full rounded-full" />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function SkeletonMap() {
   return (
-    <div className="col-span-1 lg:col-span-3 rounded-2xl border border-azure-card bg-azure-card/50 backdrop-blur-xl p-5">
+    <div className="col-span-1 rounded-2xl border border-azure-card bg-azure-card/50 backdrop-blur-xl p-4 sm:p-5">
       <div className="flex items-center justify-between mb-3">
         <div>
           <Pulse className="h-5 w-44 mb-1.5" />
@@ -170,12 +205,12 @@ export default function DashboardSkeleton() {
       <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
         <div>
           <div className="flex items-center gap-2.5 mb-1">
-            <Pulse className="h-8 w-8 rounded" />
-            <Pulse className="h-8 w-48" />
+            <Pulse className="h-7 w-7 sm:h-8 sm:w-8 rounded" />
+            <Pulse className="h-7 w-40 sm:h-8 sm:w-48" />
           </div>
-          <Pulse className="h-4 w-72 mt-1" />
+          <Pulse className="h-3 w-56 sm:h-4 sm:w-72 mt-1" />
         </div>
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2 sm:gap-4 flex-wrap">
           <Pulse className="h-8 w-28 rounded-lg" />
           <Pulse className="h-8 w-32 rounded-full" />
         </div>
@@ -190,19 +225,25 @@ export default function DashboardSkeleton() {
       </div>
 
       {/* Charts */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
-        <SkeletonChart className="col-span-1 lg:col-span-2" />
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+        <SkeletonChart className="col-span-1 md:col-span-2 lg:col-span-2" />
         <SkeletonChart />
       </div>
 
       {/* Status + Feed */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
         <SkeletonServiceGrid />
         <SkeletonFeed />
       </div>
 
+      {/* Incidents + Resource Health */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+        <SkeletonFeed />
+        <SkeletonResourceHealth />
+      </div>
+
       {/* Map */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 gap-4">
         <SkeletonMap />
       </div>
     </motion.div>

@@ -8,9 +8,10 @@ interface SparklineProps {
   width?: number;
   height?: number;
   filled?: boolean;
+  responsive?: boolean;
 }
 
-function SparklineInner({ data, color = "#38bdf8", width = 80, height = 28, filled = true }: SparklineProps) {
+function SparklineInner({ data, color = "#38bdf8", width = 80, height = 28, filled = true, responsive = false }: SparklineProps) {
   if (data.length < 2) return null;
 
   const min = Math.min(...data);
@@ -28,7 +29,13 @@ function SparklineInner({ data, color = "#38bdf8", width = 80, height = 28, fill
   const fillPath = `M ${pad},${height - pad} ${points.map((p, i) => (i === 0 ? `L ${p}` : `L ${p}`)).join(" ")} L ${width - pad},${height - pad} Z`;
 
   return (
-    <svg width={width} height={height} viewBox={`0 0 ${width} ${height}`} className="overflow-visible">
+    <svg
+      width={responsive ? "100%" : width}
+      height={height}
+      viewBox={`0 0 ${width} ${height}`}
+      preserveAspectRatio={responsive ? "none" : undefined}
+      className="overflow-visible"
+    >
       {filled && (
         <defs>
           <linearGradient id={`spark-fill-${color.replace("#", "")}`} x1="0" y1="0" x2="0" y2="1">
