@@ -126,20 +126,15 @@ export default function NavBar() {
               </p>
               {PROVIDERS.map((provider) => {
                 const isActive = provider.id === active.id;
-                const isDisabled = provider.id === "gcp"; // GCP not yet implemented
                 return (
                   <motion.button
                     key={provider.id}
-                    whileHover={!isDisabled ? { x: 2 } : undefined}
+                    whileHover={{ x: 2 }}
                     onClick={() => {
-                      if (isDisabled) return;
                       router.push(provider.href);
                       setOpen(false);
                     }}
-                    disabled={isDisabled}
-                    className={`w-full flex items-center gap-3 px-2.5 py-2.5 rounded-lg text-left transition-all duration-150 ${
-                      isDisabled ? "opacity-40 cursor-not-allowed" : "cursor-pointer"
-                    }`}
+                    className="w-full flex items-center gap-3 px-2.5 py-2.5 rounded-lg text-left transition-all duration-150 cursor-pointer"
                     style={{
                       backgroundColor: isActive ? `${provider.color}15` : "transparent",
                     }}
@@ -166,15 +161,6 @@ export default function NavBar() {
                             className="w-1.5 h-1.5 rounded-full flex-shrink-0"
                             style={{ backgroundColor: provider.color }}
                           />
-                        )}
-                        {isDisabled && (
-                          <span className="text-[9px] font-medium px-1.5 py-0.5 rounded-full"
-                            style={{
-                              backgroundColor: `${theme.textMuted}20`,
-                              color: theme.textMuted,
-                            }}>
-                            Soon
-                          </span>
                         )}
                       </div>
                       <p className="text-[10px] truncate" style={{ color: theme.textMuted }}>
