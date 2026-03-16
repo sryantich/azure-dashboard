@@ -1,0 +1,160 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-azure-bg: var(--color-azure-bg, #030712);
+  --color-azure-card: var(--color-azure-card, #111827);
+  --color-azure-card-hover: var(--color-azure-card-hover, #1f2937);
+  --color-azure-accent: var(--color-azure-accent, #38bdf8);
+  --color-azure-accent-muted: var(--color-azure-accent-muted, rgba(56, 189, 248, 0.15));
+  --color-azure-border: var(--color-azure-border, #1e293b);
+  --color-azure-success: var(--color-azure-success, #34d399);
+  --color-azure-warning: var(--color-azure-warning, #fbbf24);
+  --color-azure-error: var(--color-azure-error, #ef4444);
+  --color-azure-text-primary: var(--color-azure-text-primary, #f1f5f9);
+  --color-azure-text-secondary: var(--color-azure-text-secondary, #94a3b8);
+  --color-azure-text-muted: var(--color-azure-text-muted, #64748b);
+  --color-azure-tooltip-bg: var(--color-azure-tooltip-bg, #0f172a);
+  --color-azure-tooltip-border: var(--color-azure-tooltip-border, #1e293b);
+}
+
+:root {
+  color-scheme: dark;
+
+  /* Fallback values — overridden at runtime by ThemeProvider */
+  --color-azure-bg: #030712;
+  --color-azure-card: #111827;
+  --color-azure-card-hover: #1f2937;
+  --color-azure-accent: #38bdf8;
+  --color-azure-accent-muted: rgba(56, 189, 248, 0.15);
+  --color-azure-border: #1e293b;
+  --color-azure-success: #34d399;
+  --color-azure-warning: #fbbf24;
+  --color-azure-error: #ef4444;
+  --color-azure-text-primary: #f1f5f9;
+  --color-azure-text-secondary: #94a3b8;
+  --color-azure-text-muted: #64748b;
+  --color-azure-tooltip-bg: #0f172a;
+  --color-azure-tooltip-border: #1e293b;
+  --color-azure-scroll-thumb: #1e293b;
+  --color-azure-scroll-thumb-hover: #334155;
+  --color-body-glow-1: rgba(56, 189, 248, 0.12);
+  --color-body-glow-2: rgba(139, 92, 246, 0.06);
+  --color-body-glow-3: rgba(16, 185, 129, 0.04);
+  --color-scanline: rgba(56, 189, 248, 0.015);
+}
+
+body {
+  background-color: var(--color-azure-bg);
+  background-image:
+    radial-gradient(ellipse at 20% 0%, var(--color-body-glow-1) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 0%, var(--color-body-glow-2) 0%, transparent 40%),
+    radial-gradient(ellipse at 50% 100%, var(--color-body-glow-3) 0%, transparent 30%);
+  color: var(--color-azure-text-primary);
+  min-height: 100vh;
+  margin: 0;
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  overflow-x: hidden;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* ─── Scrollbar ─── */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-azure-scroll-thumb);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-azure-scroll-thumb-hover);
+}
+
+/* ─── Keyframe animations ─── */
+@keyframes dash {
+  to {
+    stroke-dashoffset: -24;
+  }
+}
+
+@keyframes pulse-ring {
+  0% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  100% {
+    transform: scale(2.5);
+    opacity: 0;
+  }
+}
+
+@keyframes glow-shift {
+  0%, 100% {
+    opacity: 0.5;
+    filter: blur(40px);
+  }
+  50% {
+    opacity: 0.8;
+    filter: blur(50px);
+  }
+}
+
+@keyframes scan-line {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(200vh);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+/* ─── Utility classes ─── */
+.animate-dash {
+  animation: dash 6s linear infinite;
+}
+
+.animate-glow-shift {
+  animation: glow-shift 8s ease-in-out infinite;
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Scanline overlay effect */
+.scanline::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    var(--color-scanline) 50%,
+    transparent 100%
+  );
+  height: 60px;
+  pointer-events: none;
+  animation: scan-line 8s linear infinite;
+  z-index: 1;
+}
+
+/* Grid dot background pattern */
+.grid-dots {
+  background-image: radial-gradient(circle, var(--color-azure-accent-muted) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
