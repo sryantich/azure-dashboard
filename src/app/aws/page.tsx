@@ -6,27 +6,27 @@ import {
   Gauge,
   Timer,
   AlertTriangle,
-  CloudRain,
+  Cloud,
 } from "lucide-react";
-import MetricCard from "../components/MetricCard";
-import UsageChart from "../components/UsageChart";
-import CostChart from "../components/CostChart";
-import NetworkMap from "../components/NetworkMap";
-import ServiceStatusGrid from "../components/ServiceStatusGrid";
-import ActivityFeed from "../components/ActivityFeed";
-import IncidentsFeed from "../components/IncidentsFeed";
-import ResourceHealthPanel from "../components/ResourceHealthPanel";
-import ThemeSelector from "../components/ThemeSelector";
-import NavBar from "../components/NavBar";
-import ClientOnly from "../components/ClientOnly";
-import DashboardSkeleton from "../components/DashboardSkeleton";
-import { useLiveClock } from "../hooks/useLiveClock";
-import { useStreamingMetrics } from "../hooks/useStreamingMetrics";
-import { useAzureStatus } from "../hooks/useAzureStatus";
-import { useActivityFeed } from "../hooks/useActivityFeed";
-import { useAzureIncidents } from "../hooks/useAzureIncidents";
-import { useResourceHealth } from "../hooks/useResourceHealth";
-import { ThemeProvider, useTheme } from "../hooks/useTheme";
+import MetricCard from "../../components/MetricCard";
+import UsageChart from "../../components/UsageChart";
+import AwsCostChart from "../../components/AwsCostChart";
+import NetworkMap from "../../components/NetworkMap";
+import ServiceStatusGrid from "../../components/ServiceStatusGrid";
+import ActivityFeed from "../../components/ActivityFeed";
+import IncidentsFeed from "../../components/IncidentsFeed";
+import ResourceHealthPanel from "../../components/ResourceHealthPanel";
+import ThemeSelector from "../../components/ThemeSelector";
+import NavBar from "../../components/NavBar";
+import ClientOnly from "../../components/ClientOnly";
+import DashboardSkeleton from "../../components/DashboardSkeleton";
+import { useLiveClock } from "../../hooks/useLiveClock";
+import { useAwsMetrics } from "../../hooks/useAwsMetrics";
+import { useAwsStatus, AWS_REGION_CONNECTIONS } from "../../hooks/useAwsStatus";
+import { useAwsActivityFeed } from "../../hooks/useAwsActivityFeed";
+import { useAwsIncidents } from "../../hooks/useAwsIncidents";
+import { useAwsResourceHealth } from "../../hooks/useAwsResourceHealth";
+import { ThemeProvider, useTheme } from "../../hooks/useTheme";
 
 /* ── Formatters ── */
 const fmtInt = (v: number) => Math.round(v).toLocaleString();
@@ -56,13 +56,13 @@ const itemVariants: Variants = {
   },
 };
 
-function Dashboard() {
+function AwsDashboard() {
   const clock = useLiveClock();
-  const metrics = useStreamingMetrics(40, 2000);
-  const azure = useAzureStatus(30000);
-  const events = useActivityFeed(50);
-  const incidents = useAzureIncidents(60000);
-  const resourceHealth = useResourceHealth(10000);
+  const metrics = useAwsMetrics(40, 2000);
+  const aws = useAwsStatus(30000);
+  const events = useAwsActivityFeed(50);
+  const incidents = useAwsIncidents(60000);
+  const resourceHealth = useAwsResourceHealth(10000);
   const { theme } = useTheme();
 
   const c = metrics.current;
@@ -84,11 +84,11 @@ function Dashboard() {
       >
         <div>
           <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-white mb-1 flex items-center gap-2.5">
-            <CloudRain className="w-7 h-7 sm:w-8 sm:h-8 text-azure-accent" />
-            Azure Live Ops
+            <Cloud className="w-7 h-7 sm:w-8 sm:h-8" style={{ color: "#f59e0b" }} />
+            AWS Live Ops
           </h1>
           <p className="text-slate-500 text-xs sm:text-sm font-medium tracking-wide">
-            Real-time infrastructure & performance monitoring
+            Real-time AWS infrastructure & performance monitoring
           </p>
         </div>
         <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
@@ -122,11 +122,11 @@ function Dashboard() {
       {/* ── Metrics Row ── */}
       <motion.div variants={itemVariants} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         <MetricCard
-          title="Active Resources"
+          title="EC2 Instances"
           value={c.activeResources}
           format={fmtInt}
-          changeLabel={c.runningResources > 1180 ? `+${c.activeResources - 1190}` : `${c.activeResources - 1200}`}
-          trend={c.activeResources >= 1200 ? "up" : "down"}
+          changeLabel={c.runningResources > 830 ? `+${c.activeResources - 840}` : `${c.activeResources - 840}`}
+          trend={c.activeResources >= 840 ? "up" : "down"}
           trendIsGood={true}
           icon={Server}
           sparklineData={metrics.sparklines.resources}
@@ -144,8 +144,8 @@ function Dashboard() {
           value={c.throughput}
           format={fmtReqS}
           unit="req/s"
-          changeLabel={c.throughput > 2200 ? `+${((c.throughput / 2200 - 1) * 100).toFixed(1)}%` : `${((c.throughput / 2200 - 1) * 100).toFixed(1)}%`}
-          trend={c.throughput > 2200 ? "up" : c.throughput < 1800 ? "down" : "neutral"}
+          changeLabel={c.throughput > 2800 ? `+${((c.throughput / 2800 - 1) * 100).toFixed(1)}%` : `${((c.throughput / 2800 - 1) * 100).toFixed(1)}%`}
+          trend={c.throughput > 2800 ? "up" : c.throughput < 2200 ? "down" : "neutral"}
           trendIsGood={true}
           icon={Gauge}
           sparklineData={metrics.sparklines.throughput}
@@ -163,8 +163,8 @@ function Dashboard() {
           value={c.avgLatency}
           format={fmtMs}
           unit="ms"
-          changeLabel={c.avgLatency > 45 ? `+${(c.avgLatency - 38).toFixed(0)}ms` : `${(c.avgLatency - 38).toFixed(0)}ms`}
-          trend={c.avgLatency > 50 ? "up" : c.avgLatency < 30 ? "down" : "neutral"}
+          changeLabel={c.avgLatency > 35 ? `+${(c.avgLatency - 28).toFixed(0)}ms` : `${(c.avgLatency - 28).toFixed(0)}ms`}
+          trend={c.avgLatency > 40 ? "up" : c.avgLatency < 22 ? "down" : "neutral"}
           trendIsGood={false}
           icon={Timer}
           sparklineData={metrics.sparklines.latency}
@@ -205,34 +205,39 @@ function Dashboard() {
           memory={c.memory}
           network={c.network}
         />
-        <CostChart />
+        <AwsCostChart />
       </motion.div>
 
       {/* ── Status + Feed Row ── */}
       <motion.div variants={itemVariants} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
-        <ServiceStatusGrid services={azure.services} />
+        <ServiceStatusGrid services={aws.services as never} title="AWS Service Health" />
         <ActivityFeed events={events} />
       </motion.div>
 
       {/* ── Incidents + Resource Health Row ── */}
       <motion.div variants={itemVariants} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
-        <IncidentsFeed data={incidents} />
+        <IncidentsFeed data={incidents as never} />
         <ResourceHealthPanel data={resourceHealth} />
       </motion.div>
 
       {/* ── Network Map ── */}
       <motion.div variants={itemVariants} className="grid grid-cols-1 gap-4">
-        <NetworkMap regions={azure.regions} />
+        <NetworkMap
+          regions={aws.regions}
+          connections={AWS_REGION_CONNECTIONS}
+          title="Global AWS Regions"
+          subtitle={`${aws.regions.length} regions monitored \u00b7 ${AWS_REGION_CONNECTIONS.length} network links`}
+        />
       </motion.div>
     </motion.div>
   );
 }
 
-export default function Home() {
+export default function AwsPage() {
   return (
     <ThemeProvider>
       <ClientOnly fallback={<DashboardSkeleton />}>
-        <Dashboard />
+        <AwsDashboard />
       </ClientOnly>
     </ThemeProvider>
   );

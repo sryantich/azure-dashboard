@@ -5,6 +5,7 @@ import type { AzureService } from "../hooks/useAzureStatus";
 
 interface ServiceStatusGridProps {
   services: AzureService[];
+  title?: string;
 }
 
 const STATUS_CONFIG = {
@@ -23,7 +24,7 @@ function groupByCategory(services: AzureService[]): Record<string, AzureService[
   return groups;
 }
 
-export default function ServiceStatusGrid({ services }: ServiceStatusGridProps) {
+export default function ServiceStatusGrid({ services, title = "Azure Service Health" }: ServiceStatusGridProps) {
   const groups = groupByCategory(services);
   const operationalCount = services.filter(s => s.status === "operational").length;
   const issueCount = services.length - operationalCount;
@@ -40,7 +41,7 @@ export default function ServiceStatusGrid({ services }: ServiceStatusGridProps) 
       {/* Header */}
       <div className="flex items-center justify-between mb-4 relative">
         <div>
-          <h2 className="text-base font-semibold text-slate-100">Azure Service Health</h2>
+          <h2 className="text-base font-semibold text-slate-100">{title}</h2>
           <p className="text-[11px] text-slate-500 mt-0.5">{services.length} services monitored</p>
         </div>
         <div className="flex items-center gap-3 text-xs">

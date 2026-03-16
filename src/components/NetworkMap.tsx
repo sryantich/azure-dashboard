@@ -8,8 +8,21 @@ import { getWorldPaths, project, MAP_W, MAP_H } from "../data/worldMapPaths";
 import { useTheme } from "../hooks/useTheme";
 import type { ThemePalette } from "../data/themes";
 
+/** Generic region type — structurally compatible with AzureRegion, AwsRegion, etc. */
+type RegionLike = {
+  name: string;
+  displayName: string;
+  lat: number;
+  lng: number;
+  status: "healthy" | "degraded" | "outage";
+  load: number;
+};
+
 interface NetworkMapProps {
-  regions: AzureRegion[];
+  regions: RegionLike[];
+  connections?: [number, number][];
+  title?: string;
+  subtitle?: string;
 }
 
 function getStatusColors(t: ThemePalette) {
@@ -33,7 +46,7 @@ function ConnectionLine({
   x1, y1, x2, y2, delay, statusA, statusB, theme,
 }: {
   x1: number; y1: number; x2: number; y2: number; delay: number;
-  statusA: AzureRegion["status"]; statusB: AzureRegion["status"];
+  statusA: RegionLike["status"]; statusB: RegionLike["status"];
   theme: ThemePalette;
 }) {
   const midX = (x1 + x2) / 2;
@@ -111,11 +124,11 @@ function RegionDot({
   statusColors,
   statusGlow,
 }: {
-  region: AzureRegion;
-  onHover: (r: AzureRegion, pos: { x: number; y: number }) => void;
+  region: RegionLike;
+  onHover: (r: RegionLike, pos: { x: number; y: number }) => void;
   onLeave: () => void;
-  statusColors: Record<AzureRegion["status"], string>;
-  statusGlow: Record<AzureRegion["status"], string>;
+  statusColors: Record<RegionLike["status"], string>;
+  statusGlow: Record<RegionLike["status"], string>;
 }) {
   const { x, y } = project(region.lat, region.lng);
   const color = statusColors[region.status];
@@ -183,13 +196,14 @@ function Graticule({ gridColor }: { gridColor: string }) {
 }
 
 /* ── Main component ── */
-export default function NetworkMap({ regions }: NetworkMapProps) {
+export default function NetworkMap({ regions, connections, title, subtitle }: NetworkMapProps) {
   const { theme } = useTheme();
   const statusColors = useMemo(() => getStatusColors(theme), [theme]);
   const statusGlow = useMemo(() => getStatusGlow(theme), [theme]);
+  const conns = connections ?? REGION_CONNECTIONS;
 
   const [tooltip, setTooltip] = useState<{
-    region: AzureRegion;
+    region: RegionLike;
     x: number;
     y: number;
   } | null>(null);
@@ -201,7 +215,7 @@ export default function NetworkMap({ regions }: NetworkMapProps) {
   const worldPaths = useMemo(() => getWorldPaths(), []);
 
   const regionStatusMap = useMemo(() => {
-    const m = new Map<number, AzureRegion["status"]>();
+    const m = new Map<number, RegionLike["status"]>();
     regions.forEach((r, i) => m.set(i, r.status));
     return m;
   }, [regions]);
@@ -225,11 +239,10 @@ export default function NetworkMap({ regions }: NetworkMapProps) {
       <div className="flex items-center justify-between mb-3 relative">
         <div>
           <h2 className="text-base font-semibold" style={{ color: theme.textPrimary }}>
-            Global Azure Regions
+            {title ?? "Global Azure Regions"}
           </h2>
           <p className="text-[11px] mt-0.5" style={{ color: theme.textMuted }}>
-            {regions.length} regions monitored &middot;{" "}
-            {REGION_CONNECTIONS.length} network links
+            {subtitle ?? `${regions.length} regions monitored \u00b7 ${conns.length} network links`}
           </p>
         </div>
         <div className="flex items-center gap-4 text-xs">
@@ -312,7 +325,7 @@ export default function NetworkMap({ regions }: NetworkMapProps) {
           {/* ── Connection lines ── */}
           <g filter="url(#line-glow)" opacity={0.5}>
             {regions.length > 0 &&
-              REGION_CONNECTIONS.map(([from, to], i) => {
+              conns.map(([from, to], i) => {
                 if (from >= regions.length || to >= regions.length) return null;
                 const a = project(regions[from].lat, regions[from].lng);
                 const b = project(regions[to].lat, regions[to].lng);
@@ -330,7 +343,7 @@ export default function NetworkMap({ regions }: NetworkMapProps) {
           </g>
           <g>
             {regions.length > 0 &&
-              REGION_CONNECTIONS.map(([from, to], i) => {
+              conns.map(([from, to], i) => {
                 if (from >= regions.length || to >= regions.length) return null;
                 const a = project(regions[from].lat, regions[from].lng);
                 const b = project(regions[to].lat, regions[to].lng);
@@ -350,7 +363,7 @@ export default function NetworkMap({ regions }: NetworkMapProps) {
           {/* ── Data packets ── */}
           <g>
             {regions.length > 0 &&
-              REGION_CONNECTIONS.map(([from, to], i) => {
+              conns.map(([from, to], i) => {
                 if (from >= regions.length || to >= regions.length) return null;
                 const a = project(regions[from].lat, regions[from].lng);
                 const b = project(regions[to].lat, regions[to].lng);

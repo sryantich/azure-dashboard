@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Azure Live Ops Dashboard",
-  description: "Modern animated metrics dashboard for Azure infrastructure",
+  title: "Cloud Live Ops Dashboard",
+  description: "Real-time multi-cloud monitoring dashboard for Azure, AWS, and GCP infrastructure",
 };
 
 export default function RootLayout({
