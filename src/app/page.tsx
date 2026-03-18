@@ -18,6 +18,8 @@ import IncidentsFeed from "../components/IncidentsFeed";
 import ResourceHealthPanel from "../components/ResourceHealthPanel";
 import ThemeSelector from "../components/ThemeSelector";
 import NavBar from "../components/NavBar";
+import UserMenu from "../components/UserMenu";
+import DataSourceBadge from "../components/DataSourceBadge";
 import ClientOnly from "../components/ClientOnly";
 import DashboardSkeleton from "../components/DashboardSkeleton";
 import { useLiveClock } from "../hooks/useLiveClock";
@@ -96,6 +98,10 @@ function Dashboard() {
           <NavBar />
           {/* Theme selector */}
           <ThemeSelector />
+          {/* User menu */}
+          <UserMenu />
+          {/* Data source indicator */}
+          <DataSourceBadge provider="azure" />
           {/* Live clock */}
           {clock && (
             <div className="text-xs font-mono bg-azure-bg/60 border border-azure-card-hover/50 rounded-lg px-3 py-1.5"

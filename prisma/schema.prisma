@@ -1,0 +1,96 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// ─── NextAuth.js models ───────────────────────────────────────
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  accounts      Account[]
+  sessions      Session[]
+  connections   CloudConnection[]
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+// ─── Cloud Connection (encrypted credentials) ────────────────
+
+model CloudConnection {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  /// "azure" | "aws" | "gcp"
+  provider    String
+
+  /// Human-readable label (e.g., "Production Azure", "Dev Subscription")
+  name        String
+
+  /// Encrypted JSON blob containing provider-specific credentials:
+  /// Azure: { tenantId, clientId, clientSecret, subscriptionId }
+  /// AWS:   { accessKeyId, secretAccessKey, region }
+  /// GCP:   { projectId, serviceAccountKey }
+  encryptedCredentials String
+
+  /// IV used for AES-256-GCM encryption (hex string)
+  credentialsIv        String
+
+  /// Auth tag from AES-256-GCM (hex string)
+  credentialsTag       String
+
+  /// Whether this connection has been verified to work
+  verified    Boolean  @default(false)
+
+  /// Last time credentials were successfully used
+  lastUsedAt  DateTime?
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([userId])
+  @@unique([userId, provider, name])
+}
